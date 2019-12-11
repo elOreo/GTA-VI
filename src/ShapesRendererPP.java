@@ -55,13 +55,14 @@ import com.jogamp.opengl.util.PMVMatrix;
 public class ShapesRendererPP extends GLCanvas implements GLEventListener {
 
     private static final long serialVersionUID = 1L;
-
+    private float[] testColour = {0.1f, 0.8f, 0.1f};
     // Create objects for the scene
     private RoofRenderer r0 = new RoofRenderer();
     private SphereRenderer s0 = new SphereRenderer();
-    private ConeRenderer c0 = new ConeRenderer();
+    private ConeRenderer c0 = new ConeRenderer(1.0f, 0.8f, 3.0f, testColour);
     private BoxRenderer b0 = new BoxRenderer();
     private BoxRenderer b1 = new BoxRenderer();
+    private Tree t1 = new Tree();
 
     // Object for handling keyboard and mouse interaction
     private InteractionHandler interactionHandler;
@@ -122,7 +123,8 @@ public class ShapesRendererPP extends GLCanvas implements GLEventListener {
         b0.init(drawable);
         b1.init(drawable);
         c0.init(drawable);
-
+        t1.getTrunk().init(drawable);
+        t1.getTreetop().init(drawable);
         // Create projection-model-view matrix
         pmvMatrix = new PMVMatrix();
 
@@ -196,6 +198,19 @@ public class ShapesRendererPP extends GLCanvas implements GLEventListener {
         pmvMatrix.glTranslatef(0f, -1f, 0f);
         c0.displayCone(gl, pmvMatrix);
         pmvMatrix.glPopMatrix();
+
+        //tree:
+        //treeTrunk
+        pmvMatrix.glPushMatrix();
+        pmvMatrix.glTranslatef(3, 0, 3);
+        t1.getTrunk().displayCone(gl, pmvMatrix);
+        pmvMatrix.glPopMatrix();
+
+        //treeTop
+        pmvMatrix.glPushMatrix();
+        pmvMatrix.glTranslatef(3, t1.getTreetop().getLength(), 3);
+        t1.getTreetop().displayCone(gl, pmvMatrix);
+        pmvMatrix.glPopMatrix();
     }
 
     /**
@@ -214,6 +229,9 @@ public class ShapesRendererPP extends GLCanvas implements GLEventListener {
         r0.reshapeRoof(drawable, x, y, width, height, pmvMatrix);
         b0.reshapeBox(drawable, x, y, width, height, pmvMatrix);
         b1.reshapeBox(drawable, x, y, width, height, pmvMatrix);
+        t1.getTrunk().reshapeCone(drawable, x, y, width, height, pmvMatrix);
+        t1.getTreetop().reshapeCone(drawable, x, y, width, height, pmvMatrix);
+
     }
 
     /**
@@ -230,6 +248,8 @@ public class ShapesRendererPP extends GLCanvas implements GLEventListener {
         r0.disposeRoof(drawable);
         b0.disposeBox(drawable);
         b1.disposeBox(drawable);
+        t1.getTrunk().disposeCone(drawable);
+        t1.getTreetop().disposeCone(drawable);
 
         System.exit(0);
     }

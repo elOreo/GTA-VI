@@ -22,6 +22,22 @@ public class ConeRenderer {
 
     private ShaderProgram shaderProgram2;           //Hyp. Shader Fenster
 
+    private float radiusTop;
+    private float radiusBtm;
+    private float length;
+    float[] color2;
+
+    public ConeRenderer(float radiusTop, float radiusBtm, float length, float[] color2){
+        this.radiusTop = radiusTop;
+        this.radiusBtm = radiusBtm;
+        this.length = length;
+        this.color2 = color2;
+    }
+
+    public float getLength() {
+        return length;
+    }
+
     public PMVMatrix getPmvCone() {
         return pmvCone;
     }
@@ -78,9 +94,9 @@ public class ConeRenderer {
         shaderProgram2.loadShaderAndCreateProgram(shaderPath,
                 vertexShader2FileName, fragmentShader2FileName);
 
-        float[] color2 = {0.2f, 0.8f, 0.2f};
-        cone0 = new Cone(64);
-        float[] coneVertices = cone0.makeVertices(0.2f, 0.6f, 1f, color2);
+
+        cone0 = new Cone(64, radiusTop, radiusBtm, length);
+        float[] coneVertices = cone0.makeVertices(radiusTop, radiusBtm, length, color2);
         int[] coneIndices = cone0.makeIndicesForTriangleStrip();
 
         // activate and initialize vertex buffer object (VBO)

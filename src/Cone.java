@@ -12,9 +12,30 @@ public class Cone {
     private int horizontalResolution;
     private int noOfIndices;
 
-    public Cone(int horizontalResolution) {
+
+
+    private float radiusTop;
+    private float radiusBtm;
+    private float length;
+
+    public Cone(int horizontalResolution, float radiusTop, float radiusBtm, float length) {
         this.horizontalResolution = horizontalResolution;
         noOfIndices = noOfIndicesForCone();
+        this.radiusTop = radiusTop;
+        this.radiusBtm = radiusBtm;
+        this.length = length;
+    }
+
+    public float getRadiusTop() {
+        return radiusTop;
+    }
+
+    public float getRadiusBtm() {
+        return radiusBtm;
+    }
+
+    public float getLength() {
+        return length;
     }
 
     /**
